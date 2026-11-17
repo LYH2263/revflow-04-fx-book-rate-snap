@@ -29,7 +29,7 @@ const maxCount = computed(() => {
     <template v-if="data">
       <section class="hero-balance">
         <div>
-          <p class="label">账户余额合计</p>
+          <p class="label">账户余额合计（记账币 {{ data.记账币 || 'CNY' }}）</p>
           <p class="amount">¥ {{ yuan(data.余额合计分) }}</p>
           <p class="hint">
             待归并 {{ data.待归并 }} 笔
@@ -57,14 +57,15 @@ const maxCount = computed(() => {
         </div>
       </section>
 
-      <h2 class="section-title">账户余额</h2>
+      <h2 class="section-title">账户余额（折算记账币）</h2>
       <div class="panel">
         <table>
-          <thead><tr><th>编码</th><th>名称</th><th>余额（元）</th></tr></thead>
+          <thead><tr><th>编码</th><th>名称</th><th>币种</th><th>余额（元）</th></tr></thead>
           <tbody>
             <tr v-for="a in data.账户" :key="a.id">
               <td>{{ a.code }}</td>
               <td>{{ a.name }}</td>
+              <td><span class="tag">{{ a.currency }}</span></td>
               <td>{{ yuan(a.balance_cents) }}</td>
             </tr>
           </tbody>

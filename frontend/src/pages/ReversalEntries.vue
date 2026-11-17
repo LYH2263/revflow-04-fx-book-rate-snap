@@ -21,18 +21,20 @@ function yuan(cents) {
 <template>
   <div>
     <h1>冲正流水</h1>
-    <p class="lead">冲正须关联原正向流水键；无原单或超额会在归并时进未平隔离。</p>
+    <p class="lead">冲正须关联原正向流水键；无原单或超额会在归并时进未平隔离。配平冲正按本趟冻结汇率折算后以负向参与净额。</p>
     <p v-if="err" class="msg">{{ err }}</p>
     <div class="panel">
       <table>
         <thead>
-          <tr><th>流水键</th><th>账户</th><th>金额（元）</th><th>原单键</th><th>业务单</th><th>状态</th></tr>
+          <tr><th>流水键</th><th>账户</th><th>原币金额（元）</th><th>币种</th><th>折算 CNY（元）</th><th>原单键</th><th>业务单</th><th>状态</th></tr>
         </thead>
         <tbody>
           <tr v-for="e in rows" :key="e.id">
             <td>{{ e.entry_key }}</td>
             <td>{{ e.account_code }}</td>
             <td>{{ yuan(e.amount_cents) }}</td>
+            <td><span class="tag">{{ e.currency }}</span></td>
+            <td>{{ e.converted_cents == null ? '—' : yuan(e.converted_cents) }}</td>
             <td>{{ e.target_entry_key || '—' }}</td>
             <td>{{ e.biz_ref }}</td>
             <td>
